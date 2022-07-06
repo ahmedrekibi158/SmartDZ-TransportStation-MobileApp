@@ -1,3 +1,4 @@
+import 'package:app0/pages/profilPage.dart';
 import 'package:flutter/material.dart';
 
 import '../param/colors.dart';
@@ -87,7 +88,11 @@ Widget retourDash(width, b, context) {
       children: [
         InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => profilePage(),
+                ));
           },
           child: Icon(
             Icons.arrow_back_ios_new,

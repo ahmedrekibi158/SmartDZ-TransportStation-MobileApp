@@ -79,11 +79,11 @@ class _TestPageState extends State<TestPage> {
         context: context,
         type: CoolAlertType.success,
         text: 'Inscription terminée avec succès!',
-        autoCloseDuration: Duration(seconds: 3),
+        autoCloseDuration: Duration(seconds: 2),
       );
       await Future.delayed(const Duration(seconds: 2), () {});
       //if (_formKeyC.currentState!.validate()) {
-      Navigator.pushReplacement(
+      Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     } else {
       showDialog(

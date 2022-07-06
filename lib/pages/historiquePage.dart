@@ -91,10 +91,10 @@ class _HistoriqueState extends State<historiquePage> {
                         margin: EdgeInsets.only(top: height * .03),
                         padding: EdgeInsets.only(
                             right: width * .025, left: width * .025),
-                        child: Text(
+                        /*child: Text(
                           'jour',
                           style: TextStyle(fontSize: 15, color: whiteColor),
-                        ),
+                        ),*/
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: height * .03),
@@ -102,7 +102,7 @@ class _HistoriqueState extends State<historiquePage> {
                             right: width * .025, left: width * .025),
                         child: Text(
                           date,
-                          style: TextStyle(fontSize: 15, color: whiteColor),
+                          style: TextStyle(fontSize: 12, color: whiteColor),
                         ),
                       )
                     ],
@@ -118,8 +118,7 @@ class _HistoriqueState extends State<historiquePage> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(top: height * .008),
-                      child: //Text("A"),
-                          Image.asset(
+                      child: Image.asset(
                         'assets/images/picres.png',
                         width: width * .11,
                         height: height * .115,
@@ -227,7 +226,7 @@ class _HistoriqueState extends State<historiquePage> {
                               children: [
                                 Text("Détaille de l'historique"),
                                 SizedBox(
-                                  width: width * .09,
+                                  width: width * .008,
                                 ),
                                 InkWell(
                                   child: Icon(
@@ -264,7 +263,7 @@ class _HistoriqueState extends State<historiquePage> {
                                             return Text(
                                               val,
                                               style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 11,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             );
@@ -285,7 +284,7 @@ class _HistoriqueState extends State<historiquePage> {
                                             return Text(
                                               val,
                                               style: TextStyle(
-                                                  fontSize: 13,
+                                                  fontSize: 11,
                                                   fontWeight: FontWeight.bold),
                                             );
                                           })

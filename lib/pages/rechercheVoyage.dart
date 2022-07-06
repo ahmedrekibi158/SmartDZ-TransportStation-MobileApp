@@ -369,7 +369,7 @@ class _rechercheState extends State<recherchePage> {
     print(ress.statusCode);
 
     var vv = jsonDecode(ress.body);
-    if (vv['voyages'] != null) {
+    if (vv['voyages'].length != 0) {
       setState(() {
         print('vv voyage != null');
         print(vv['voyages']);
@@ -379,7 +379,12 @@ class _rechercheState extends State<recherchePage> {
       showDialog(
           context: context,
           builder: (_) => AlertDialog(
-                title: Icon(Icons.warning),
+                title: Row(
+                  children: [
+                    Icon(Icons.warning, color: Colors.red),
+                    Text('  Malheuresement'),
+                  ],
+                ),
                 content: Text('Aucun voyage trouvé'),
                 actions: <Widget>[
                   ElevatedButton(
@@ -461,8 +466,7 @@ class _rechercheState extends State<recherchePage> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(top: height * .008),
-                      child: //Text("A"),
-                          Image.asset(
+                      child: Image.asset(
                         'assets/images/picres.png',
                         width: width * .11,
                         height: height * .115,
@@ -582,7 +586,7 @@ class _rechercheState extends State<recherchePage> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: width * .18,
+                                  width: width * .075,
                                 ),
                                 InkWell(
                                   child: Icon(
@@ -619,7 +623,7 @@ class _rechercheState extends State<recherchePage> {
                                             return Text(
                                               val,
                                               style: TextStyle(
-                                                fontSize: 14,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             );
@@ -640,7 +644,7 @@ class _rechercheState extends State<recherchePage> {
                                             return Text(
                                               val,
                                               style: TextStyle(
-                                                  fontSize: 13,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.bold),
                                             );
                                           })
@@ -830,17 +834,18 @@ class _rechercheState extends State<recherchePage> {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-                  title: Icon(Icons.warning),
+                  title: Row(
+                    children: [
+                      Icon(Icons.warning, color: Colors.red),
+                      Text('  Malheuresement'),
+                    ],
+                  ),
                   content: Text(res.body),
                   actions: <Widget>[
                     ElevatedButton(
                       child: Text('Fermer !'),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => recherchePage(),
-                            ));
+                        Navigator.of(context).pop();
                       },
                     )
                   ],
@@ -885,7 +890,7 @@ class _rechercheState extends State<recherchePage> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(height * .4),
+        preferredSize: Size.fromHeight(height * .43),
         child: Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -920,6 +925,13 @@ class _rechercheState extends State<recherchePage> {
                   margin: EdgeInsets.all(12),
                   child: Column(
                     children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            height: height * .05,
+                          )
+                        ],
+                      ),
                       Row(
                         children: [
                           Icon(
@@ -1035,8 +1047,8 @@ class _rechercheState extends State<recherchePage> {
             //padding: EdgeInsets.,
             child: Image.asset(
               'assets/images/voyageEmpty.png',
-              width: width * .45,
-              height: height * .45,
+              width: width * .37,
+              height: height * .37,
             ),
           ),
         ],

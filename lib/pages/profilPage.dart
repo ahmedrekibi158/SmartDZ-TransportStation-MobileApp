@@ -240,7 +240,7 @@ class _profileState extends State<profilePage> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
-                          width: width * .06,
+                          width: width * .05,
                         ),
                         InkWell(
                           child: Icon(

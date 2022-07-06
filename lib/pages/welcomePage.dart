@@ -102,7 +102,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 Center(
                   child: Image.asset(
-                    "assets/images/Asset 2xhdpi.png",
+                    "assets/images/Asset 2mdpi.png",
                     width: width * .31,
                     height: height * .155,
                   ),

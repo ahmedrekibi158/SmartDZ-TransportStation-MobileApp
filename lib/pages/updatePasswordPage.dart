@@ -31,7 +31,6 @@ class _upState extends State<UpdatePasswordPage> {
     Future<String> updatePass() async {
       print("UPDATE pass");
       String url = urrr + 'user/account/modifiyPassword';
-
       var resG = await http.post(
         Uri.parse(url), // ou url idk
         headers: {
@@ -41,12 +40,14 @@ class _upState extends State<UpdatePasswordPage> {
           "Access-Control-Allow-Methods": "POST, OPTIONS",
           "Access-Control-Allow-Origin": "*",
         },
-        body: json.encode({'old': oldPass, 'new': newPass}),
+        body: json.encode({'oldPassword': oldPass, 'newPassword': newPass}),
       );
 
-      String userJsonGG = json.decode(resG.body)['response'].toString();
-      print('userJsonG== $userJsonGG');
+      String respoorr = json.decode(resG.body)['response'].toString();
+      print('respoo before $respoorr');
       if (respoorr == 'ok') {
+        print('respoo ok $respoorr');
+
         print('respoo==ok');
         CoolAlert.show(
           context: context,
@@ -55,13 +56,12 @@ class _upState extends State<UpdatePasswordPage> {
           autoCloseDuration: Duration(seconds: 2),
         );
         await Future.delayed(const Duration(seconds: 2), () {});
-        if (_globKey.currentState!.validate()) {
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => profilePage(),
-              ));
-        }
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => profilePage(),
+            ));
+
         //Navigator.pop(context);
         //Navigator.pop(context);
       } else {
@@ -85,7 +85,7 @@ class _upState extends State<UpdatePasswordPage> {
                 ));
       }
 
-      return userJsonGG;
+      return respoorr;
     }
 
     final height = MediaQuery.of(context).size.height;
@@ -95,7 +95,7 @@ class _upState extends State<UpdatePasswordPage> {
             appbar(height, width, 'Modification du mot de passe', 3, context),
         body: Form(
           key: _globKey,
-          child: Container(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(
@@ -110,8 +110,16 @@ class _upState extends State<UpdatePasswordPage> {
                     onChanged: (val) {
                       setState(() {
                         oldPass = val;
+
                         print('old pass0');
+                        print(oldPass);
                       });
+                    },
+                    validator: (text) {
+                      if (text!.isEmpty) {
+                        return "L'ancien mot de passe est vide";
+                      }
+                      return null;
                     },
                     obscureText: true,
 
@@ -209,7 +217,9 @@ class _upState extends State<UpdatePasswordPage> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      updatePass();
+                      if (_globKey.currentState!.validate()) {
+                        updatePass();
+                      }
                     },
                     child: Text('Confirmer'))
               ],

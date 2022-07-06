@@ -11,6 +11,7 @@ import 'package:collection/collection.dart';
 import 'package:app0/param/colors.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -25,6 +26,9 @@ class Dashboard extends StatefulWidget {
 
 class _dashboardState extends State<Dashboard> {
   List<dynamic> data = [];
+  String dater = "";
+  var dataa;
+  static final DateFormat formatter2 = DateFormat('yyyy-MM-dd');
 
   Future getReservations() async {
     //var myjwt = await storag.read(key: "myjwt");
@@ -41,16 +45,21 @@ class _dashboardState extends State<Dashboard> {
         "Access-Control-Allow-Origin": "*",
       },
     );
-
-    var dataa = jsonDecode(res.body);
+    dataa = jsonDecode(res.body);
+    print(dataa);
     setState(() {
       if (dataa['reservations'] != null) {
+        print('ddddddddddd');
+        //print(dataa['reservations']['date']);
+        print(dataa['reservations']);
+        //dater = dataa['reservations']['date'];
         data = dataa['reservations'];
       }
       //data = dataa['reservations'];
     });
   }
 
+  String idd = "0z0";
   @override
   void initState() {
     //var storage = FlutterSecureStorage();
@@ -81,6 +90,9 @@ class _dashboardState extends State<Dashboard> {
         );
 
         var data3 = json.decode(resp.body);
+        setState(() {
+          idd = data3['voyage']['id'].toString();
+        });
         List<String> reservation = [
           getDay(DateFormat('EEEE').format(DateTime.parse(data3['date']))),
           data3['date'],
@@ -177,10 +189,11 @@ class _dashboardState extends State<Dashboard> {
                     children: [
                       Text(
                         "Détaille de réservation",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       SizedBox(
-                        width: width * .06,
+                        width: width * .04,
                       ),
                       InkWell(
                         child: Icon(
@@ -213,8 +226,9 @@ class _dashboardState extends State<Dashboard> {
                                 ...fields.map((val) {
                                   return Text(
                                     val,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   );
                                 })
                               ],
@@ -228,7 +242,10 @@ class _dashboardState extends State<Dashboard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ...reservation.map((val) {
-                                  return Text(val);
+                                  return Text(
+                                    val,
+                                    style: TextStyle(fontSize: 14),
+                                  );
                                 })
                               ],
                             ),
@@ -241,23 +258,65 @@ class _dashboardState extends State<Dashboard> {
                             top: height * .05,
                           ),
                           child: ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              primary: blueColor,
-                            ),
-                            icon: Icon(
-                              Icons.gps_fixed,
-                              color: blackColor,
-                              size: 24.0,
-                            ),
-                            label: Text('Localiser le bus'),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Position(),
-                                  ));
-                            },
-                          ),
+                              style: ElevatedButton.styleFrom(
+                                primary: blueColor,
+                              ),
+                              icon: Icon(
+                                Icons.gps_fixed,
+                                color: blackColor,
+                                size: 24.0,
+                              ),
+                              label: Text('Localiser le bus'),
+                              onPressed: () {
+                                print('5555');
+                                //print(dataa['reservations']['voyage']);
+
+                                //print(dataa['reservations']['voyage']['id']);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Position(
+                                        id: idd.toString(),
+                                      ),
+                                    ));
+
+                                /*
+                                if (DateTime.parse(dater).compareTo(
+                                        DateTime.now().add(Duration(days: 1))) >
+                                    0) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Position(
+                                          id: (dataa['reservations']['voyage']
+                                                  ['id'])
+                                              .toString(),
+                                        ),
+                                      ));
+                                }*/ /*else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialog(
+                                            title: Row(
+                                              children: [
+                                                Icon(Icons.warning,
+                                                    color: Colors.red),
+                                                Text('  Interdit'),
+                                              ],
+                                            ),
+                                            content: Text(
+                                                'Vous ne pouvez voir l\'emplacement de votre bus que le jour du voyage'),
+                                            actions: <Widget>[
+                                              ElevatedButton(
+                                                child: Text('Fermer !'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )
+                                            ],
+                                          ));
+                                }*/
+                              }),
                         ),
                       ),
                       Center(
@@ -325,7 +384,7 @@ class _dashboardState extends State<Dashboard> {
                               right: width * .025, left: width * .025),
                           child: Text(
                             jour,
-                            style: TextStyle(fontSize: 18, color: whiteColor),
+                            style: TextStyle(fontSize: 14, color: whiteColor),
                           ),
                         ),
                         Container(
@@ -334,7 +393,7 @@ class _dashboardState extends State<Dashboard> {
                               right: width * .025, left: width * .025),
                           child: Text(
                             date,
-                            style: TextStyle(fontSize: 18, color: whiteColor),
+                            style: TextStyle(fontSize: 14, color: whiteColor),
                           ),
                         )
                       ],
@@ -372,9 +431,8 @@ class _dashboardState extends State<Dashboard> {
                                   bottom: height * .009,
                                   top: height * .0055,
                                 ),
-                                child: Text(
-                                  depart,
-                                ),
+                                child: Text(depart,
+                                    style: TextStyle(fontSize: 13)),
                               ),
                             ),
                             Align(
@@ -384,7 +442,10 @@ class _dashboardState extends State<Dashboard> {
                                 padding: EdgeInsets.only(left: 0),
                                 margin: EdgeInsets.only(
                                     right: width * .15, top: height * .009),
-                                child: Text(destination),
+                                child: Text(
+                                  destination,
+                                  style: TextStyle(fontSize: 13),
+                                ),
                               ),
                             ),
                           ],
@@ -407,12 +468,12 @@ class _dashboardState extends State<Dashboard> {
                               Container(
                                   child: Text(
                                 "Heure",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 14),
                               )),
                               Container(
                                 child: Text(
                                   heure,
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
@@ -423,13 +484,13 @@ class _dashboardState extends State<Dashboard> {
                               Container(
                                 child: Text(
                                   "Prix",
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                               Container(
                                 child: Text(
                                   prix + " DA",
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(fontSize: 14),
                                 ),
                               ),
                             ],
